@@ -22,35 +22,45 @@ function JulianDay(year, month, day){
   return (c + d + e);
 }
 
+function yuriusCalc(year, month, day){//先発グレゴリオ暦を想定。
+	if(month<=2){
+		month=month+12;
+		year=year-1;
+	}
+	var yurius_result=Math.floor(365.25*year)+Math.floor(year/400)-Math.floor(year/100)+Math.floor(30.59*(month-2))+day-678911+2400000;
+	return(yurius_result)
+}
+
 {
 	var CelKrCykk = function(){
 	
-	var today = new Date();
-	var year = today.getFullYear();
-	var month = today.getMonth()+1;
-	var day = today.getDate();
-	var hor = today.getHours();
-	var min = today.getMinutes();
-	var sec = today.getSeconds();
+	var now = new Date();
+	var year = now.getFullYear();
+	var month = now.getMonth()+1;//そのままでは0~11で出てしまうので、1~12に変換するため+1。
+	var day = now.getDate();
+	var hor = now.getHours();
+	var min = now.getMinutes();
+	var sec = now.getSeconds();
 	
-	var yurius;
-	yurius = JulianDay(year, month, day);
-	
-	var x;
-	x = yurius-1526862;
-	
-	var dec=x-931376;
+	var yurius = yuriusCalc(year, month, day); //今日のユリウス通日
+
+	//var x = yurius-1526862;	//繰り返し回数。あとの減算はユリウス通日での暦の創始日
+	var x = yurius-yuriusCalc(-532,4,12)
+
+	var dec=x-931376; //dec数。20180430を起点にする。
 	var celYear=1;
 	var celMonth=1;
-	var celDay=1;
+	var celDay=1;//すべての始まりはCel1 1月1日。
 	
+	console.log(yuriusCalc(year,month,day));
+
 	while(x>0){
 		x=x-1;
 		if(celMonth==14){
 			if(celDay==1){
 				if(celYear%4==0){
 					if(celYear%100==0){
-						if(celYear%400==0){
+						if(celYear%400==0){//五連if、これを百万回すのを秒間十回って地獄か？
 							celDay=celDay+1;
 						}else{
 							celDay=1;
@@ -151,8 +161,8 @@ function JulianDay(year, month, day){
 	return (era+year+month+day+'<br>'+hor+'-'+min+'-'+sec+'<br>C'+celYear+'-'+celMonth+celDay+'<br>'+celhor+'-'+celmin+'-'+celsec+'<br>dec '+dec);
 	}
 	
-	var akcino = function(){
-	 
+	function akcino(){
+	
 	var result = document.getElementById("result");
 	result.innerHTML = CelKrCykk();
 	setTimeout(akcino, 100);
