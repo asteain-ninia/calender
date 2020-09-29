@@ -44,10 +44,23 @@ function getDates(){//日付もらうやつ
 	return (result);
 }
 
-function celloop(x){
+function CelKrCykk(){
+
+	var Dates = getDates();//今日の日付など
+	var yurius = yuriusCalc(Dates.year, Dates.month, Dates.day); //今日のユリウス通日
+
+	//var input = yurius-1526862;	//繰り返し回数。あとの減算はユリウス通日での暦の創始日
+	var input = yurius-yuriusCalc(-532,4,12);//開始はCel歴の先発グレゴリオ暦でのもの。
+
+	var dec=input-931376; //dec数計算。20180430を起点にする。
+	
+	console.log(yuriusCalc(Dates.year,Dates.month,Dates.day));
+
 	var celYear=1;
 	var celMonth=1;
 	var celDay=1;//すべての始まりはCel1 1月1日。
+
+	var x = input;
 
 	while(x>0){//主に年末のifがやばいんだな。理解。
 		x=x-1;
@@ -85,28 +98,13 @@ function celloop(x){
 		}
 	}
 
-	var results={
-		year:celYear,
-		month:celMonth,
-		day:celDay
+	var values={
+		celYear:celYear,
+		celMonth:celMonth,
+		celDay:celDay
 	};
 
-	return(results);
-}
-
-function CelKrCykk(){
-
-	var Dates = getDates();//今日の日付など
-	var yurius = yuriusCalc(Dates.year, Dates.month, Dates.day); //今日のユリウス通日
-
-	//var input = yurius-1526862;	//繰り返し回数。あとの減算はユリウス通日での暦の創始日
-	var input = yurius-yuriusCalc(-532,4,12);//開始はCel歴の先発グレゴリオ暦でのもの。
-
-	var dec=input-931376; //dec数計算。20180430を起点にする。
-	
-	console.log(yuriusCalc(Dates.year,Dates.month,Dates.day));
-	var values=celloop(input);
-	console.log(values)
+	//return(results);
 	
 	var time=(Dates.hor*60+Dates.min)*60+Dates.sec;//分数出して六十倍して秒足して現在の秒数
 	var celtime=time-20000;//秒差
@@ -135,6 +133,7 @@ function CelKrCykk(){
 	var celmin =celtime%3600/60|0;
 	var celsec =celtime%60;
 	
+	var era="???"
 	
 	//改元処理
 	if(Dates.year<=2019){
@@ -175,7 +174,6 @@ function CelKrCykk(){
 	if(celsec<10){celsec='0'+celsec;}
 	console.log(values)
 	if(flag==2){dec=dec-1;}
-	
 	return (era+Dates.year+Dates.month+Dates.day+'<br>'+Dates.hor+'-'+Dates.min+'-'+Dates.sec+'<br>C'+values.celYear+'-'+values.celMonth+values.celDay+'<br>'+celhor+'-'+celmin+'-'+celsec+'<br>dec '+dec);
 }
 	
@@ -187,7 +185,7 @@ setTimeout(akcino, 100);
 
 }
 
-
+//以下すいうさん(R020928鳴葉)にもらったやつ
 function JuliusCalc(year, month, day){
 	if(month <= 2){
 		month += 12;
