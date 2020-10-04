@@ -46,15 +46,15 @@ function getDates(){//日付もらうやつ
 
 function CelKrCykk(){
 
-	var Dates = getDates();//今日の日付など
-	var yurius = yuriusCalc(Dates.year, Dates.month, Dates.day); //今日のユリウス通日
+	var Now = getDates();//今日の日付など
+	var yurius = yuriusCalc(Now.year, Now.month, Now.day); //今日のユリウス通日
 
 	//var input = yurius-1526862;	//繰り返し回数。あとの減算はユリウス通日での暦の創始日
-	var input = yurius-yuriusCalc(-532,4,12);//開始はCel歴の先発グレゴリオ暦でのもの。
+	var input = yurius-yuriusCalc(-532,4,12);//日付は先発グレゴリオ暦でCel歴の創始日。
 
 	var dec=input-931376; //dec数計算。20180430を起点にする。
 	
-	console.log(yuriusCalc(Dates.year,Dates.month,Dates.day));
+	console.log(yuriusCalc(Now.year,Now.month,Now.day));
 
 	var celYear=1;
 	var celMonth=1;
@@ -106,7 +106,7 @@ function CelKrCykk(){
 
 	//return(results);
 	
-	var time=(Dates.hor*60+Dates.min)*60+Dates.sec;//分数出して六十倍して秒足して現在の秒数
+	var time=(Now.hor*60+Now.min)*60+Now.sec;//分数出して六十倍して秒足して現在の秒数
 	var celtime=time-20000;//秒差
 	var flag=1;//なにこれ
 	if(celtime<0){
@@ -136,23 +136,23 @@ function CelKrCykk(){
 	var era="???"
 	
 	//改元処理
-	if(Dates.year<=2019){
-		if(Dates.month<=4){
-			era='H';Dates.year=Dates.year-1988;
-		}else{if(Dates.month>4)
-			era="R";Dates.year=Dates.year-2018;
+	if(Now.year<=2019){
+		if(Now.month<=4){
+			era='H';Now.year=Now.year-1988;
+		}else{if(Now.month>4)
+			era="R";Now.year=Now.year-2018;
 		}
 	}else{
-		if(Dates.year>2019){era="R";Dates.year=Dates.year-2018;}
+		if(Now.year>2019){era="R";Now.year=Now.year-2018;}
 	}
 	
 	
 	
 	
 	//ひとけた対応
-	if(Dates.year<10){Dates.year='0'+Dates.year;}
-	if(Dates.day<10){Dates.day='0'+Dates.day;}
-	if(Dates.month<10){Dates.month='0'+Dates.month;}
+	if(Now.year<10){Now.year='0'+Now.year;}
+	if(Now.day<10){Now.day='0'+Now.day;}
+	if(Now.month<10){Now.month='0'+Now.month;}
 	if(values.celYear<10){
 		values.celYear='000'+values.celYear;
 	}else{
@@ -166,15 +166,15 @@ function CelKrCykk(){
 	}
 	if(values.celMonth<10){values.celMonth='0'+values.celMonth;}
 	if(values.celDay<10){values.celDay='0'+values.celDay;}
-	if(Dates.hor<10){Dates.hor='0'+Dates.hor;}
-	if(Dates.min<10){Dates.min='0'+Dates.min;}
-	if(Dates.sec<10){Dates.sec='0'+Dates.sec;}
+	if(Now.hor<10){Now.hor='0'+Now.hor;}
+	if(Now.min<10){Now.min='0'+Now.min;}
+	if(Now.sec<10){Now.sec='0'+Now.sec;}
 	if(celhor<10){celhor='0'+celhor;}
 	if(celmin<10){celmin='0'+celmin;}
 	if(celsec<10){celsec='0'+celsec;}
 	console.log(values)
 	if(flag==2){dec=dec-1;}
-	return (era+Dates.year+Dates.month+Dates.day+'<br>'+Dates.hor+'-'+Dates.min+'-'+Dates.sec+'<br>C'+values.celYear+'-'+values.celMonth+values.celDay+'<br>'+celhor+'-'+celmin+'-'+celsec+'<br>dec '+dec);
+	return (era+Now.year+Now.month+Now.day+'<br>'+Now.hor+'-'+Now.min+'-'+Now.sec+'<br>C'+values.celYear+'-'+values.celMonth+values.celDay+'<br>'+celhor+'-'+celmin+'-'+celsec+'<br>dec '+dec);
 }
 	
 function akcino(){//無限ループ始めるやつ
@@ -222,8 +222,8 @@ function TransYinDate(yearI, monthI, dayI){
 
 function YinSwitch(){
 	var result = document.getElementById("result");
-	var Dates = getDates();//今日の日付など
-	result.innerHTML = TransYinDate(Dates.year,Dates.month,Dates.day);
+	var Now = getDates();//今日の日付など
+	result.innerHTML = TransYinDate(Now.year,Now.month,Now.day);
 	console.log(yuriusCalc(1,1,1));
 	console.log(JuliusCalc(1,1,1));
 }
