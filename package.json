@@ -1,6 +1,6 @@
 {
   "main": "main.js",
-  "name": "Calender",
+  "name": "calender",
   "version": "1.0.0",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -16,5 +16,8 @@
     "url": "https://github.com/asteain-ninia/calender/issues"
   },
   "homepage": "https://github.com/asteain-ninia/calender#readme",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "electron": "^11.1.0"
+  }
 }
